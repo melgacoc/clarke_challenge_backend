@@ -3,9 +3,10 @@ import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { join } from 'path';
-import { UserModule } from './user/user.module';
 import { User } from './user/user.model';
+import { UserModule } from './user/user.module';
 import { Contract } from './contract/contract.model';
+import { ContractModule } from './contract/contract.module';
 import { Supplier } from './supplier/supplier.model';
 import { SupplierModule } from './supplier/supplier.module';
 import * as dotenv from 'dotenv';
@@ -29,6 +30,7 @@ dotenv.config();
     }), 
     UserModule,
     SupplierModule,
+    ContractModule,
   ],
 })
 export class AppModule {}

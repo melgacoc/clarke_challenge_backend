@@ -16,12 +16,20 @@ type Supplier {
 
 type Contract {
   id: Int!
-  supplier_id: Int!
   supplier: Supplier!
-  user_id: Int!
+  supplier_id: Int!
+  user_id: String!
   user: User!
   isActive: Boolean!
+  cost_per_kWh: Float!
+  user_kWh_month: Float!
+  created_at: DateTime!
 }
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
 
 type User {
   id: String!
@@ -37,6 +45,16 @@ type UserWithToken {
   token: String!
 }
 
+type ContractDto {
+  id: Int!
+  supplier_id: Int!
+  user_id: String!
+  isActive: Boolean!
+  cost_per_kWh: Float!
+  user_kWh_month: Float!
+  created_at: DateTime!
+}
+
 type SupplierWithToken {
   supplier: Supplier!
   token: String!
@@ -45,6 +63,9 @@ type SupplierWithToken {
 type Query {
   getUsers: [User!]!
   suppliers: [Supplier!]!
+  getAllContracts: [ContractDto!]!
+  getAllContractsByUserId(user_id: String!): [ContractDto!]!
+  getAllContractsBySupplierId(supplier_id: Int!): [ContractDto!]!
 }
 
 type Mutation {
@@ -54,6 +75,8 @@ type Mutation {
   createSupplier(createSupplierDto: CreateSupplierDto!): SupplierWithToken!
   updateSupplier(id: Int!, updateSupplierDto: UpdateSupplierDto!): Supplier!
   loginSupplier(supplierLoginDto: SupplierLoginDto!): SupplierWithToken!
+  createContract(createContractInput: CreateContractInput!): ContractDto!
+  deactivateContract(id: Int!): ContractDto!
 }
 
 input CreateUserDto {
@@ -101,4 +124,12 @@ input UpdateSupplierDto {
 input SupplierLoginDto {
   email: String!
   password: String!
+}
+
+input CreateContractInput {
+  supplier_id: Int!
+  user_id: String!
+  isActive: Boolean!
+  user_kWh_month: Float!
+  cost_per_kWh: Float
 }

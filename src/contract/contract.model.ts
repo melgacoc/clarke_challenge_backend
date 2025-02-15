@@ -1,10 +1,13 @@
-import { ObjectType, Field, Int } from '@nestjs/graphql';
-import { Table, Column, Model, DataType, ForeignKey, BelongsTo } from 'sequelize-typescript';
-import { User } from '../user/user.model';
+import { Field, Int, ObjectType } from '@nestjs/graphql';
+import { Column, DataType, Model, Table, ForeignKey, BelongsTo } from 'sequelize-typescript';
 import { Supplier } from '../supplier/supplier.model';
+import { User } from '../user/user.model';
 
 @ObjectType()
-@Table
+@Table({
+  tableName: 'contracts',
+  timestamps: false,
+})
 export class Contract extends Model<Contract> {
   @Field(() => Int)
   @Column({
@@ -14,6 +17,10 @@ export class Contract extends Model<Contract> {
   })
   id!: number;
 
+  @Field(() => Supplier)
+  @BelongsTo(() => Supplier)
+  supplier!: Supplier;
+
   @Field(() => Int)
   @ForeignKey(() => Supplier)
   @Column({
@@ -22,18 +29,13 @@ export class Contract extends Model<Contract> {
   })
   supplier_id!: number;
 
-  @Field(() => Supplier)
-  @BelongsTo(() => Supplier)
-  supplier!: Supplier;
-
-  @Field(() => Int)
+  @Field(() => String)
   @ForeignKey(() => User)
   @Column({
-    type: DataType.INTEGER,
+    type: DataType.UUID,
     allowNull: false,
-    unique: true,
   })
-  user_id!: number;
+  user_id!: string;
 
   @Field(() => User)
   @BelongsTo(() => User)
@@ -45,4 +47,28 @@ export class Contract extends Model<Contract> {
     defaultValue: true,
   })
   isActive!: boolean;
+
+  @Field()
+  @Column({
+    type: DataType.DECIMAL(10, 2),
+    allowNull: false,
+    defaultValue: 0,
+  })
+  cost_per_kWh!: number;
+
+  @Field()
+  @Column({
+    type: DataType.DECIMAL(10, 2),
+    allowNull: false,
+    defaultValue: 0,
+  })
+  user_kWh_month!: number;
+
+  @Field()
+  @Column({
+    type: DataType.DATE,
+    allowNull: false,
+    defaultValue: DataType.NOW,
+  })
+  created_at!: Date;
 }
