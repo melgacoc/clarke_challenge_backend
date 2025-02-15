@@ -7,7 +7,7 @@ module.exports = {
     const password = 'password123';
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    await queryInterface.bulkInsert('suppliers', [
+    const suppliers = [
       {
         name: 'Engie Brasil Energia',
         logo: 'https://example.com/logo-engie.png',
@@ -140,7 +140,14 @@ module.exports = {
         email: 'aestiete@aes.com',
         password: hashedPassword,
       }
-    ], {});
+    ]
+
+    for (const supplier of suppliers) {
+      await queryInterface.sequelize.models.Supplier.findOrCreate({ 
+        where: { email: supplier.email },
+        defaults: supplier
+      });
+    }
   },
 
   async down (queryInterface, Sequelize) {
