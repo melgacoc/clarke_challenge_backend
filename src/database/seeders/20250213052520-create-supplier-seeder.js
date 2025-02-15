@@ -143,10 +143,17 @@ module.exports = {
     ]
 
     for (const supplier of suppliers) {
-      await queryInterface.sequelize.models.Supplier.findOrCreate({ 
-        where: { email: supplier.email },
-        defaults: supplier
-      });
+      const existing = await queryInterface.sequelize.query(
+        `SELECT id FROM suppliers WHERE email = :email`,
+        {
+          replacements: { email: supplier.email },
+          type: Sequelize.QueryTypes.SELECT,
+        }
+      );
+
+      if (existing.length === 0) {
+        await queryInterface.bulkInsert('suppliers', [supplier]);
+      }
     }
   },
 
