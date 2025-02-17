@@ -26,6 +26,12 @@ import { ReviewModule } from './review/review.module';
       password: 'qZHi1XQEbz55DQVrN59mtLrUsVk5UFuC',
       database: 'clarke_db_0z08',
       models: [User, Contract, Supplier, Review],
+      dialectOptions: {
+        ssl: {
+          require: true,
+          rejectUnauthorized: false,
+        },
+      },
     }),
     UserModule,
     SupplierModule,
