@@ -43,24 +43,24 @@ export class Supplier extends Model<Supplier> {
   })
   logo: string;
 
-  @Field()
+  @Field({ nullable: true })
   @Column({
     type: DataType.STRING(50),
-    allowNull: false,
+    allowNull: true,
   })
   state_origin: string;
 
-  @Field(() => Float)
+  @Field(() => Float, { nullable: true })
   @Column({
     type: DataType.DECIMAL(10, 4),
-    allowNull: false,
+    allowNull: true,
   })
   cost_per_kWh: number;
 
-  @Field(() => Int)
+  @Field(() => Int, { nullable: true })
   @Column({
     type: DataType.INTEGER,
-    allowNull: false,
+    allowNull: true,
   })
   min_kWh_limit: number;
 

@@ -19,8 +19,15 @@ export class SupplierService {
   async create(createSupplierDto: CreateSupplierDto): Promise<{ supplier: Supplier; token: string }> {
     const hashedPassword = await bcrypt.hash(createSupplierDto.password, 10);
     const supplier = await this.supplierModel.create({
-      ...createSupplierDto,
+      name: createSupplierDto.name,
+      email: createSupplierDto.email,
       password: hashedPassword,
+      logo: createSupplierDto.logo ?? null,
+      state_origin: createSupplierDto.state_origin ?? null,
+      cost_per_kWh: createSupplierDto.cost_per_kWh ?? null,
+      min_kWh_limit: createSupplierDto.min_kWh_limit ?? null,
+      total_clients: createSupplierDto.total_clients ?? 0,
+      avg_rating: createSupplierDto.avg_rating ?? 0,
     });
     const token = this.generateToken(supplier);
     return { supplier, token };
@@ -48,8 +55,9 @@ export class SupplierService {
     const suppliers = await this.supplierModel.findAll({ offset, limit });
 
     for (const supplier of suppliers) {
-      const review = await this.reviewModel.findOne({ where: { user_id: user_id, supplier_id: supplier.id } });
-      supplier.setDataValue('userReview', review);
+      const review = await this.reviewModel.findOne({ where: { supplier_id: supplier.id, user_id: user_id  } });
+      console.log(review);
+      supplier.userReview = review;
     }
 
     return suppliers;
@@ -61,18 +69,13 @@ export class SupplierService {
 
     for (const supplier of suppliers) {
       const review = await this.reviewModel.findOne({ where: { user_id: user_id, supplier_id: supplier.id } });
-      supplier.setDataValue('userReview', review);
+      supplier.userReview = review;
     }
 
     return suppliers;
   }
 
-  async findById(id: number, user_id: string): Promise<Supplier> {
-    const supplier = await this.supplierModel.findByPk(id);
-    if (supplier) {
-      const review = await this.reviewModel.findOne({ where: { user_id: user_id, supplier_id: supplier.id } });
-      supplier.setDataValue('userReview', review);
-    }
-    return supplier;
+  async findById(id: number): Promise<Supplier> {
+    return this.supplierModel.findByPk(id);
   }
 }

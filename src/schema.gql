@@ -23,9 +23,9 @@ type Supplier {
   name: String!
   email: String!
   logo: String
-  state_origin: String!
-  cost_per_kWh: Float!
-  min_kWh_limit: Int!
+  state_origin: String
+  cost_per_kWh: Float
+  min_kWh_limit: Int
   total_clients: Int!
   avg_rating: Float!
   userReview: Review
@@ -79,12 +79,12 @@ type SupplierWithToken {
 type Query {
   getUsers: [User!]!
   suppliers(minKwh: Float, page: Int, limit: Int, user_id: String): [Supplier!]!
-  getSupplierById(id: Int!, user_id: String!): Supplier!
+  getSupplierById(id: Int!): Supplier!
   getAllContracts: [ContractDto!]!
   getAllContractsByUserId(user_id: String!): [ContractDto!]!
   getAllContractsBySupplierId(supplier_id: Int!, page: Int, limit: Int): [ContractDto!]!
   getAllReviews: [Review!]!
-  getReview(id: String!): Review!
+  getReview(user_id: String!, supplier_id: String!): Review!
 }
 
 type Mutation {

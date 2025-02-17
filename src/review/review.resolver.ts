@@ -13,9 +13,12 @@ export class ReviewResolver {
   }
 
   @Query(() => Review, { name: 'getReview' })
-  findOne(@Args('id', { type: () => String }) id: string) {
-    return this.reviewService.findOne(id);
-  }
+findOne(
+  @Args('user_id', { type: () => String }) user_id: string,
+  @Args('supplier_id', { type: () => String }) supplier_id: number
+) {
+  return this.reviewService.findOneByUserAndSupplier(user_id, supplier_id);
+}
 
   @Mutation(() => Review)
   createReview(@Args('createReviewInput') createReviewInput: CreateReviewInput) {

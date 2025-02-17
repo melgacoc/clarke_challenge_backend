@@ -25,9 +25,8 @@ export class SupplierResolver {
   @Query(() => Supplier)
   async getSupplierById(
     @Args('id', { type: () => Int }) id: number,
-    @Args('user_id', { type: () => String }) user_id: string,
   ): Promise<Supplier> {
-    return this.supplierService.findById(id, user_id);
+    return this.supplierService.findById(id);
   }
 
   @Mutation(() => SupplierWithToken)
