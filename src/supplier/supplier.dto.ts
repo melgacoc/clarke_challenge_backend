@@ -14,19 +14,19 @@ export class CreateSupplierDto {
   @Field({ nullable: true })
   logo?: string;
 
-  @Field()
+  @Field({ nullable: true })
   state_origin: string;
 
-  @Field()
+  @Field({ nullable: true })
   cost_per_kWh: number;
 
-  @Field()
+  @Field({ nullable: true })
   min_kWh_limit: number;
 
-  @Field()
+  @Field({ nullable: true })
   total_clients: number;
 
-  @Field()
+  @Field({ nullable: true })
   avg_rating: number;
 }
 

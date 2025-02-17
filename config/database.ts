@@ -2,6 +2,7 @@ import { SequelizeModuleOptions } from '@nestjs/sequelize';
 import { User } from '../src/user/user.model';
 import { Supplier } from '../src/supplier/supplier.model';
 import { Contract } from '../src/contract/contract.model';
+import { Review } from '../src/review/review.model';
 import dotenv from 'dotenv';
 
 dotenv.config();
@@ -13,7 +14,7 @@ export const databaseConfig: SequelizeModuleOptions = {
   username: process.env.DB_USER || 'postgres',
   password: process.env.DB_PASSWORD || '1234',
   database: process.env.DB_NAME || 'graphql_db',
-  models: [User, Supplier, Contract],
+  models: [User, Supplier, Contract, Review],
   autoLoadModels: true,
   synchronize: false,
 };

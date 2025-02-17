@@ -9,7 +9,13 @@ export class ContractDto {
   supplier_id!: number;
 
   @Field(() => String)
+  supplier_name!: string;
+
+  @Field(() => String)
   user_id!: string;
+
+  @Field(() => String)
+  user_name!: string;
 
   @Field()
   isActive!: boolean;
@@ -29,10 +35,16 @@ export class CreateContractInput {
   @Field(() => Int)
   supplier_id!: number;
 
+  @Field(() => String, { nullable: true })
+  supplier_name!: string;
+
   @Field(() => String)
   user_id!: string;
 
-  @Field()
+  @Field(() => String, { nullable: true })
+  user_name!: string;
+
+  @Field({ nullable: true })
   isActive!: boolean;
 
   @Field()

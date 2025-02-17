@@ -22,8 +22,10 @@ export class ContractResolver {
   @Query(() => [ContractDto], { name: 'getAllContractsBySupplierId' })
   async getAllContractsBySupplierId(
     @Args('supplier_id', { type: () => Int }) supplier_id: number,
+    @Args('page', { type: () => Int, nullable: true }) page: number = 1,
+    @Args('limit', { type: () => Int, nullable: true }) limit: number = 10,
   ): Promise<ContractDto[]> {
-    return this.contractService.findAllBySupplierId(supplier_id);
+    return this.contractService.findAllBySupplierId(supplier_id, { page, limit });
   }
 
   @Mutation(() => ContractDto)

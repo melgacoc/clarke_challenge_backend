@@ -30,12 +30,26 @@ export class Contract extends Model<Contract> {
   supplier_id!: number;
 
   @Field(() => String)
+  @Column({
+    type: DataType.STRING,
+    allowNull: false,
+  })
+  supplier_name!: string;
+
+  @Field(() => String)
   @ForeignKey(() => User)
   @Column({
     type: DataType.UUID,
     allowNull: false,
   })
   user_id!: string;
+
+  @Field(() => String)
+  @Column({
+    type: DataType.STRING,
+    allowNull: false,
+  })
+  user_name!: string;
 
   @Field(() => User)
   @BelongsTo(() => User)

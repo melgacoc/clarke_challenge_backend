@@ -9,6 +9,8 @@ import { Contract } from './contract/contract.model';
 import { ContractModule } from './contract/contract.module';
 import { Supplier } from './supplier/supplier.model';
 import { SupplierModule } from './supplier/supplier.module';
+import { Review } from './review/review.model';
+import { ReviewModule } from './review/review.module';
 import * as dotenv from 'dotenv';
 
 dotenv.config();
@@ -26,11 +28,12 @@ dotenv.config();
       username: process.env.DB_USERNAME || 'postgres',
       password: process.env.DB_PASSWORD || '1234',
       database: process.env.DB_NAME || 'graphql_db',
-      models: [User, Contract, Supplier],
+      models: [User, Contract, Supplier, Review],
     }), 
     UserModule,
     SupplierModule,
     ContractModule,
+    ReviewModule,
   ],
 })
 export class AppModule {}

@@ -1,4 +1,4 @@
-import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
+import { Resolver, Query, Mutation, Args, Int, Float } from '@nestjs/graphql';
 import { SupplierService } from './supplier.service';
 import { Supplier } from './supplier.model';
 import { CreateSupplierDto, UpdateSupplierDto, SupplierLoginDto } from './supplier.dto';
@@ -9,8 +9,25 @@ export class SupplierResolver {
   constructor(private readonly supplierService: SupplierService) {}
 
   @Query(() => [Supplier])
-  async suppliers(): Promise<Supplier[]> {
-    return this.supplierService.findAll();
+  async suppliers(
+    @Args('minKwh', { type: () => Float, nullable: true }) minKwh: number = 0,
+    @Args('page', { type: () => Int, nullable: true }) page: number = 1,
+    @Args('limit', { type: () => Int, nullable: true }) limit: number = 12,
+    @Args('user_id', { type: () => String, nullable: true }) user_id: string,
+  ): Promise<Supplier[]> {
+    if (minKwh === 0) {
+      return this.supplierService.findAll({ page, limit }, user_id);
+    } else {
+      return this.supplierService.findByMinKwh(minKwh, { page, limit }, user_id);
+    }
+  }
+
+  @Query(() => Supplier)
+  async getSupplierById(
+    @Args('id', { type: () => Int }) id: number,
+    @Args('user_id', { type: () => String }) user_id: string,
+  ): Promise<Supplier> {
+    return this.supplierService.findById(id, user_id);
   }
 
   @Mutation(() => SupplierWithToken)

@@ -1,5 +1,6 @@
 import { Table, Column, Model, DataType } from 'sequelize-typescript';
 import { ObjectType, Field, Int, Float } from '@nestjs/graphql';
+import { Review } from '../review/review.model';
 
 @ObjectType()
 @Table({
@@ -76,4 +77,7 @@ export class Supplier extends Model<Supplier> {
     defaultValue: 0,
   })
   avg_rating: number;
+
+  @Field(() => Review, { nullable: true })
+  userReview?: Review;
 }
