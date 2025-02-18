@@ -11,6 +11,9 @@ import { Supplier } from './supplier/supplier.model';
 import { SupplierModule } from './supplier/supplier.module';
 import { Review } from './review/review.model';
 import { ReviewModule } from './review/review.module';
+import * as dotenv from 'dotenv';
+
+dotenv.config();
 
 @Module({
   imports: [
@@ -20,19 +23,13 @@ import { ReviewModule } from './review/review.module';
     }),
     SequelizeModule.forRoot({
       dialect: 'postgres',
-      host: 'dpg-cupfioa3esus738de2n0-a.ohio-postgres.render.com',
-      port: 5432,
-      username: 'clarke_db_0z08_user',
-      password: 'qZHi1XQEbz55DQVrN59mtLrUsVk5UFuC',
-      database: 'clarke_db_0z08',
+      host: process.env.DB_HOST || 'localhost',
+      port: Number(process.env.DB_PORT) || 5432,
+      username: process.env.DB_USERNAME || 'postgres',
+      password: process.env.DB_PASSWORD || '1234',
+      database: process.env.DB_NAME || 'graphql_db',
       models: [User, Contract, Supplier, Review],
-      dialectOptions: {
-        ssl: {
-          require: true,
-          rejectUnauthorized: false,
-        },
-      },
-    }),
+    }), 
     UserModule,
     SupplierModule,
     ContractModule,
